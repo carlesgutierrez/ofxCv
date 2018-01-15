@@ -112,8 +112,8 @@ namespace ofxCv {
 	template <class T>
 	class Tracker {
 	protected:		
-		vector<TrackedObject<T> > previous, current;
-		vector<unsigned int> currentLabels, previousLabels, newLabels, deadLabels;
+		std::vector<TrackedObject<T> > previous, current;
+		std::vector<unsigned int> currentLabels, previousLabels, newLabels, deadLabels;
 		std::map<unsigned int, TrackedObject<T>*> previousLabelMap, currentLabelMap;
 		
 		unsigned int persistence, curLabel;
@@ -231,12 +231,12 @@ namespace ofxCv {
 		
 		// build label maps
 		currentLabelMap.clear();
-		for(int i = 0; i < (int)current.size(); i++) {
+        for(std::size_t i = 0; i < current.size(); i++) {
 			unsigned int label = current[i].getLabel();
 			currentLabelMap[label] = &(current[i]);
 		}
 		previousLabelMap.clear();
-		for(int i = 0; i < (int)previous.size(); i++) {
+        for(std::size_t i = 0; i < previous.size(); i++) {
 			unsigned int label = previous[i].getLabel();
 			previousLabelMap[label] = &(previous[i]);
 		}
@@ -260,7 +260,7 @@ namespace ofxCv {
 	}
 	
 	template <class T>
-	const vector<unsigned int>& Tracker<T>::getDeadLabels() const {
+	const std::vector<unsigned int>& Tracker<T>::getDeadLabels() const {
 		return deadLabels;
 	}
 

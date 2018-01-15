@@ -54,6 +54,7 @@ namespace ofxCv {
 		
 		void save(std::string filename, bool absolute = false) const;
 		void load(std::string filename, bool absolute = false);
+        void loadLcp(std::string filename, float focalLength, int imageWidth=0, int imageHeight=0, bool absolutePath = false);
 		void reset();
 
 		void setPatternType(CalibrationPattern patternType);
@@ -73,8 +74,8 @@ namespace ofxCv {
 		void undistort(cv::Mat img, int interpolationMode = cv::INTER_LINEAR);
 		void undistort(cv::Mat src, cv::Mat dst, int interpolationMode = cv::INTER_LINEAR);
 		
-		ofVec2f undistort(ofVec2f& src) const;
-		void undistort(std::vector<ofVec2f>& src, std::vector<ofVec2f>& dst) const;
+		glm::vec2 undistort(glm::vec2& src) const;
+		void undistort(std::vector<glm::vec2>& src, std::vector<glm::vec2>& dst) const;
 		
 		bool getTransformation(Calibration& dst, cv::Mat& rotation, cv::Mat& translation);
 		
@@ -95,6 +96,7 @@ namespace ofxCv {
 		
 		void customDraw();
 		void draw(int i) const;
+		void draw() const;
 		void draw3d() const;
 		void draw3d(int i) const;
 		

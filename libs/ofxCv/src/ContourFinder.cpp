@@ -3,6 +3,7 @@
 #include "ofGraphics.h"
 
 namespace ofxCv {
+    using namespace std;
 
 	struct CompareContourArea
 	{
@@ -87,18 +88,19 @@ namespace ofxCv {
                     curArea = -curArea;
                     hole = false;
                 }
-                allHoles.push_back(hole);
-				allAreas.push_back(curArea);
+
 				if((!needMinFilter || curArea >= imgMinArea) &&
 					 (!needMaxFilter || curArea <= imgMaxArea)) {
 					allIndices.push_back(i);
+                    allHoles.push_back(hole);
+                    allAreas.push_back(curArea);
 				}
 			}
 		} else {
 			for(size_t i = 0; i < allContours.size(); i++) {
-				if (sortBySize) {
-					allAreas.push_back(contourArea(allContours[i]));
-				}
+                double curArea = contourArea(Mat(allContours[i]), true);
+                allAreas.push_back(abs(curArea));
+                allHoles.push_back(curArea > 0);
 				allIndices.push_back(i);
 			}
 		}
@@ -304,7 +306,7 @@ namespace ofxCv {
 	void ContourFinder::draw() const {
 		ofPushStyle();
 		ofNoFill();
-		for(int i = 0; i < (int)polylines.size(); i++) {
+        for(std::size_t i = 0; i < polylines.size(); i++) {
 			polylines[i].draw();
 			ofDrawRectangle(toOf(getBoundingRect(i)));
 		}
